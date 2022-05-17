@@ -14,6 +14,9 @@ for id in tqdm(xstk_data):
     student = xstk_data[id]
     server.delete(f"{XSTK_db}:{id}")
 
+server.srem(f"{XSTK_db}")
+
 for id in tqdm(dstt_data):
     student = dstt_data[id]
     server.delete(f"{DSTT_db}:{id}")
+server.srem(f"{DSTT_db}")

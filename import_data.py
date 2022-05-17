@@ -18,6 +18,7 @@ for id in tqdm(xstk_data):
             key = key,
             value = student[key]
         )
+    server.sadd(f"{XSTK_db}", f"{XSTK_db}:{id}")
 
 for id in tqdm(dstt_data):
     student = dstt_data[id]
@@ -27,3 +28,4 @@ for id in tqdm(dstt_data):
             key = key,
             value = student[key]
         )
+    server.sadd(f"{DSTT_db}", f"{DSTT_db}:{id}")
