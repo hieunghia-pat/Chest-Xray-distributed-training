@@ -13,6 +13,9 @@ from resnet_model import ResnetModel
 from dataset import ChestXRayDataset
 from utils import collate_fn
 
+# device = "cuda" if torch.cuda.is_available() else "cpu"
+device = "cpu"
+
 def evaluate(model, epoch, dataloader, args):
     if args.rank == 0:
         model.eval()
@@ -20,6 +23,8 @@ def evaluate(model, epoch, dataloader, args):
         predicteds = []
         gts = []
         for images, labels in pb:
+            images = images.to(device)
+            labels = labels.to(device)
             # Forward pass
             outputs = model(images)
             predicteds.append(outputs.cpu().numpy())
@@ -39,6 +44,8 @@ def train(model, epoch, dataloader, loss_fn, optimizer):
     pb = tqdm(dataloader, desc=f"Epoch {epoch} - Training")
     training_loss = []
     for images, labels in pb:
+        images = images.to(device)
+        labels = labels.to(device)
         # Forward pass
         outputs = model(images)
         loss = loss_fn(outputs, labels)
@@ -58,7 +65,7 @@ def training(processor, args):
     torch.manual_seed(13)
 
     print("Creating the model ...")
-    model = ResnetModel()
+    model = ResnetModel().to(device)
 
     print("Defining loss and optimizer ...")
     loss_fn = nn.BCELoss()

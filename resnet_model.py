@@ -1,11 +1,11 @@
 from torch import nn
-from torchvision.models.resnet import resnet101
+from torchvision.models.resnet import resnet50
 
 class ResnetModel(nn.Module):
     def __init__(self):
         super(ResnetModel, self).__init__()
 
-        instance = resnet101()
+        instance = resnet50()
         
         self.conv1 = instance.conv1
         self.bn1 = instance.bn1
